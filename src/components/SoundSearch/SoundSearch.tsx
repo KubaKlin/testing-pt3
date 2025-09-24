@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store.ts';
 import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { SearchBox } from '../SearchBox/SearchBox';
-import { SearchResults}  from '../SearchResults/SearchResults';
+import { SearchResults } from '../SearchResults/SearchResults';
 
 export const SoundSearch = () => {
   const { query: searchQuery } = useSelector(
@@ -17,7 +17,9 @@ export const SoundSearch = () => {
   return (
     <Container maxWidth="lg">
       <Box textAlign="center">
-        <Typography variant="h3" gutterBottom>Free sound search app</Typography>
+        <Typography variant="h3" gutterBottom>
+          Free sound search app
+        </Typography>
       </Box>
 
       <SearchBox isLoading={isLoading} />
