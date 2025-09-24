@@ -21,7 +21,7 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmit = (event: FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (localSearchQuery.trim()) {
       dispatch(setSearchQuery(localSearchQuery.trim()));
@@ -35,7 +35,10 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSubmit(event);
+      event.preventDefault();
+      if (localSearchQuery.trim()) {
+        dispatch(setSearchQuery(localSearchQuery.trim()));
+      }
     }
   };
 
