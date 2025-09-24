@@ -1,11 +1,8 @@
 import './App.css';
+import { SoundSearch } from './components/SoundSearch/SoundSearch';
 
-function App() {
-  return (
-    <>
-      <h1>Free sound search app</h1>
-    </>
-  );
-}
+const App = () => {
+  return <SoundSearch />;
+};
 
 export default App;
