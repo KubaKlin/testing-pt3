@@ -1,18 +1,27 @@
 import { Box, Container, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store.ts';
 import { useSearchSoundsQuery } from '../../store/freesoundApi';
+import { setCurrentPage } from '../../store/searchSlice';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { SearchResults } from '../SearchResults/SearchResults';
 
 export const SoundSearch = () => {
-  const { query: searchQuery } = useSelector(
+  const dispatch = useDispatch();
+  const { query: searchQuery, currentPage } = useSelector(
     (state: RootState) => state.search,
   );
 
-  const { data, isLoading, error } = useSearchSoundsQuery(searchQuery, {
-    skip: !searchQuery,
-  });
+  const { data, isLoading, error } = useSearchSoundsQuery(
+    { query: searchQuery, page: currentPage },
+    {
+      skip: !searchQuery,
+    },
+  );
+
+  const handlePageChange = (page: number) => {
+    dispatch(setCurrentPage(page));
+  };
 
   return (
     <Container maxWidth="lg">
@@ -24,7 +33,14 @@ export const SoundSearch = () => {
 
       <SearchBox isLoading={isLoading} />
 
-      <SearchResults data={data} isLoading={isLoading} error={error} />
+      <SearchResults
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        currentPage={currentPage}
+        totalCount={data?.count || 0}
+        onPageChange={handlePageChange}
+      />
     </Container>
   );
 };

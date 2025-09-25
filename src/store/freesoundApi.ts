@@ -16,6 +16,11 @@ export interface FreesoundSearchResponse {
   results: SoundEffect[];
 }
 
+interface SearchParams {
+  query: string;
+  page: number;
+}
+
 const FREESOUND_API_KEY = 'M80wfthcPGELZtZRI0vUKoU8aVEtwAum5raYonBg';
 
 export const freesoundApi = createApi({
@@ -28,12 +33,14 @@ export const freesoundApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    searchSounds: builder.query<FreesoundSearchResponse, string>({
-      query: (searchQuery) => ({
+    searchSounds: builder.query<FreesoundSearchResponse, SearchParams>({
+      query: ({ query, page }) => ({
         url: 'search/text/',
         params: {
-          query: searchQuery,
+          query,
           fields: 'id,name,previews',
+          page,
+          page_size: 15,
         },
       }),
     }),

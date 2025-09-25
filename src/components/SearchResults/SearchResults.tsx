@@ -1,4 +1,12 @@
-import { Box, Typography, CircularProgress, Alert } from '@mui/material';
+import { ChangeEvent } from 'react';
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Alert,
+  Pagination,
+  Stack,
+} from '@mui/material';
 import { FreesoundSearchResponse } from '../../store/freesoundApi';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
 
@@ -6,13 +14,26 @@ interface SearchResultsProps {
   data?: FreesoundSearchResponse;
   isLoading: boolean;
   error?: unknown;
+  currentPage: number;
+  totalCount: number;
+  onPageChange: (page: number) => void;
 }
 
 export const SearchResults = ({
   data,
   isLoading,
   error,
+  currentPage,
+  totalCount,
+  onPageChange,
 }: SearchResultsProps) => {
+  const totalPages = Math.ceil(totalCount / 15);
+
+  const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
+    event.preventDefault();
+    onPageChange(page);
+  };
+
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" py={4}>
@@ -56,6 +77,23 @@ export const SearchResults = ({
           </Box>
         ))}
       </Box>
+
+      {totalPages > 1 && (
+        <Stack alignItems="center" sx={{ mt: 4 }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            Page {currentPage} / {totalPages}
+          </Typography>
+        </Stack>
+      )}
     </Box>
   );
 };
