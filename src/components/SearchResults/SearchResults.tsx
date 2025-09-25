@@ -32,6 +32,7 @@ export const SearchResults = ({
   const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
     event.preventDefault();
     onPageChange(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (isLoading) {
