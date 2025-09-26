@@ -43,7 +43,9 @@ export const SearchResults = ({
     return (
       <Box display="flex" justifyContent="center" py={4}>
         <CircularProgress />
-        <Typography variant="body1" sx={{ ml: 2 }}>Loading...</Typography>
+        <Typography variant="body1" sx={{ ml: 2 }}>
+          Loading...
+        </Typography>
       </Box>
     );
   }
