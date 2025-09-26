@@ -1,9 +1,10 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { RootState } from '../../store/store';
 import { SearchResults } from '../SearchResults/SearchResults';
+import { StyledFavoritesContainer, StyledBackButton } from './Favorites.styles';
 
 export const Favorites = () => {
   const navigate = useNavigate();
@@ -16,18 +17,17 @@ export const Favorites = () => {
   };
 
   return (
-    <Box sx={{ p: 2, maxWidth: '800px', mx: 'auto' }}>
+    <StyledFavoritesContainer>
       <Typography variant="h3" gutterBottom>
         Free sound search app
       </Typography>
-      <Button
+      <StyledBackButton
         startIcon={<ArrowBackIcon />}
         onClick={handleBack}
         variant="outlined"
-        sx={{ mb: 2 }}
       >
         Back to Search
-      </Button>
+      </StyledBackButton>
 
       <SearchResults
         favoriteData={favorites}
@@ -37,6 +37,6 @@ export const Favorites = () => {
         onPageChange={() => {}}
         mode="favorites"
       />
-    </Box>
+    </StyledFavoritesContainer>
   );
 };

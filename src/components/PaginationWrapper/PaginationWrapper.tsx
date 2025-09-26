@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
-import { Stack, Typography, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
+import { StyledPaginationContainer, StyledPageInfo } from './PaginationWrapper.styles';
 
 interface PaginationProps {
   totalPages: number;
@@ -9,7 +10,7 @@ interface PaginationProps {
 
 export const PaginationWrapper = ({ totalPages, currentPage, handlePageChange }: PaginationProps) => {
   return (
-    <Stack alignItems="center" sx={{ mt: 4 }}>
+    <StyledPaginationContainer>
       <Pagination
         count={totalPages}
         page={currentPage}
@@ -19,9 +20,9 @@ export const PaginationWrapper = ({ totalPages, currentPage, handlePageChange }:
         showFirstButton
         showLastButton
       />
-      <Typography variant="body2" sx={{ mt: 2 }}>
+      <StyledPageInfo variant="body2">
         Page {currentPage} / {totalPages}
-      </Typography>
-    </Stack>
+      </StyledPageInfo>
+    </StyledPaginationContainer>
   );
 };

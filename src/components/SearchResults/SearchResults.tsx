@@ -1,13 +1,10 @@
 import { ChangeEvent } from 'react';
-import {
-  Box,
-  Typography,
-  Alert,
-} from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { FreesoundSearchResponse, SoundEffect } from '../../store/freesoundApi';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
 import { LoadingInfo } from '../LoadingInfo/LoadingInfo';
 import { PaginationWrapper } from '../PaginationWrapper/PaginationWrapper';
+import { StyledErrorAlert, StyledInfoAlert } from './SearchResults.styles';
 
 interface SearchResultsProps {
   data?: FreesoundSearchResponse;
@@ -46,9 +43,9 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <Alert severity="error" sx={{ mt: 2 }}>
+      <StyledErrorAlert severity="error">
         Error loading sound effects
-      </Alert>
+      </StyledErrorAlert>
     );
   }
 
@@ -60,9 +57,9 @@ export const SearchResults = ({
         </Typography>
         <Box>
           {favoriteData?.map((soundEffect) => (
-            <Box key={soundEffect.id}>
+            <div key={soundEffect.id}>
               <SoundEffectCard soundEffect={soundEffect} />
-            </Box>
+            </div>
           ))}
         </Box>
       </Box>
@@ -71,9 +68,9 @@ export const SearchResults = ({
 
   if (data && data.results.length === 0) {
     return (
-      <Alert severity="info" sx={{ mt: 2 }}>
+      <StyledInfoAlert severity="info">
         No sound effects found. Try different search terms.
-      </Alert>
+      </StyledInfoAlert>
     );
   }
 
@@ -88,9 +85,9 @@ export const SearchResults = ({
       </Typography>
       <Box>
         {data.results.map((soundEffect) => (
-          <Box key={soundEffect.id}>
+          <div key={soundEffect.id}>
             <SoundEffectCard soundEffect={soundEffect} />
-          </Box>
+          </div>
         ))}
       </Box>
 

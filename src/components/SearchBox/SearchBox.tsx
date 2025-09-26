@@ -3,8 +3,6 @@ import type { FormEvent, KeyboardEvent } from 'react';
 
 import {
   TextField,
-  Button,
-  Box,
   InputAdornment,
   IconButton,
 } from '@mui/material';
@@ -12,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch } from 'react-redux';
 import { setSearchQuery, clearSearch } from '../../store/searchSlice';
+import { StyledSearchForm, StyledSearchButton } from './SearchBox.styles';
 
 interface SearchBoxProps {
   isLoading?: boolean;
@@ -43,7 +42,7 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mb: 3 }}>
+    <StyledSearchForm onSubmit={handleSubmit}>
       <TextField
         fullWidth
         variant="outlined"
@@ -74,16 +73,15 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
           ),
         }}
       />
-      <Button
+      <StyledSearchButton
         type="submit"
         variant="contained"
         disabled={!localSearchQuery.trim() || isLoading}
         aria-label="Search"
         tabIndex={0}
-        sx={{ mt: 2, height: 56 }}
       >
         {isLoading ? 'Searching...' : 'Search'}
-      </Button>
-    </Box>
+      </StyledSearchButton>
+    </StyledSearchForm>
   );
 };

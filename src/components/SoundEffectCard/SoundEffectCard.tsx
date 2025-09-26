@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Typography, IconButton, Box } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SoundEffect } from '../../store/freesoundApi';
 import { addFavorite, removeFavorite } from '../../store/favoritesSlice';
 import { RootState } from '../../store/store';
+import { StyledCardContainer, StyledCardContent, StyledButtonContainer } from './SoundEffectCard.styles';
 
 interface SoundEffectCardProps {
   soundEffect: SoundEffect;
@@ -49,18 +50,10 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
   };
 
   return (
-    <Box
-      sx={{ mb: 2, px: 2, py: 1 }}
-      style={{
-        border: '1px solid #333',
-        borderRadius: 8,
-        maxWidth: '500px',
-        textAlign: 'left',
-      }}
-    >
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+    <StyledCardContainer>
+      <StyledCardContent>
         <Typography variant="body1">{soundEffect.name}</Typography>
-        <Box display="flex" alignItems="center">
+        <StyledButtonContainer>
           <IconButton
             onClick={handleToggleFavorite}
             aria-label={
@@ -79,8 +72,8 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
           >
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
-        </Box>
-      </Box>
-    </Box>
+        </StyledButtonContainer>
+      </StyledCardContent>
+    </StyledCardContainer>
   );
 };

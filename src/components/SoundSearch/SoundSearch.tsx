@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -7,6 +7,7 @@ import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { setCurrentPage } from '../../store/searchSlice';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { SearchResults } from '../SearchResults/SearchResults';
+import { StyledHeaderContainer, StyledFavoritesButtonContainer } from './SoundSearch.styles';
 
 export const SoundSearch = () => {
   const dispatch = useDispatch();
@@ -35,12 +36,12 @@ export const SoundSearch = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box textAlign="center">
+      <StyledHeaderContainer>
         <Typography variant="h3" gutterBottom>
           Free sound search app
         </Typography>
         {favorites.length > 0 && (
-          <Box display="flex" justifyContent="center" mb={2}>
+          <StyledFavoritesButtonContainer>
             <Button
               startIcon={<FavoriteIcon />}
               onClick={handleGoToFavorites}
@@ -49,9 +50,9 @@ export const SoundSearch = () => {
             >
               Favorites ({favorites.length})
             </Button>
-          </Box>
+          </StyledFavoritesButtonContainer>
         )}
-      </Box>
+      </StyledHeaderContainer>
 
       <SearchBox isLoading={isLoading} />
 

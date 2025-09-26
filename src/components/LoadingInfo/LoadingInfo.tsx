@@ -1,12 +1,13 @@
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import { StyledLoadingContainer, StyledLoadingText } from './LoadingInfo.styles';
 
 export const LoadingInfo = () => {
   return (
-    <Box display="flex" justifyContent="center" py={4}>
+    <StyledLoadingContainer>
       <CircularProgress />
-      <Typography variant="body1" sx={{ ml: 2 }}>
+      <StyledLoadingText variant="body1">
         Loading...
-      </Typography>
-    </Box>
-  )
-}
+      </StyledLoadingText>
+    </StyledLoadingContainer>
+  );
+};
