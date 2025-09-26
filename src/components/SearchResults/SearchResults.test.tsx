@@ -74,8 +74,26 @@ describe('the SearchResults component', () => {
     const mockData = {
       count: 2,
       results: [
-        { id: 1, name: 'Test Sound 1', previews: { 'preview-lq-mp3': 'url1' } },
-        { id: 2, name: 'Test Sound 2', previews: { 'preview-lq-mp3': 'url2' } },
+        { 
+          id: 1, 
+          name: 'Test Sound 1', 
+          previews: { 
+            'preview-hq-mp3': 'url1',
+            'preview-hq-ogg': 'url1',
+            'preview-lq-mp3': 'url1',
+            'preview-lq-ogg': 'url1'
+          } 
+        },
+        { 
+          id: 2, 
+          name: 'Test Sound 2', 
+          previews: { 
+            'preview-hq-mp3': 'url2',
+            'preview-hq-ogg': 'url2',
+            'preview-lq-mp3': 'url2',
+            'preview-lq-ogg': 'url2'
+          } 
+        },
       ],
     };
     
@@ -100,8 +118,26 @@ describe('the SearchResults component', () => {
 
   it('should show favorites when mode is favorites', () => {
     const mockFavorites = [
-      { id: 1, name: 'Favorite Sound 1', previews: { 'preview-lq-mp3': 'url1' } },
-      { id: 2, name: 'Favorite Sound 2', previews: { 'preview-lq-mp3': 'url2' } },
+      { 
+        id: 1, 
+        name: 'Favorite Sound 1', 
+        previews: { 
+          'preview-hq-mp3': 'url1',
+          'preview-hq-ogg': 'url1',
+          'preview-lq-mp3': 'url1',
+          'preview-lq-ogg': 'url1'
+        } 
+      },
+      { 
+        id: 2, 
+        name: 'Favorite Sound 2', 
+        previews: { 
+          'preview-hq-mp3': 'url2',
+          'preview-hq-ogg': 'url2',
+          'preview-lq-mp3': 'url2',
+          'preview-lq-ogg': 'url2'
+        } 
+      },
     ];
     
     const searchResults = render(
@@ -130,7 +166,12 @@ describe('the SearchResults component', () => {
       results: Array.from({ length: 15 }, (_, i) => ({
         id: i + 1,
         name: `Sound ${i + 1}`,
-        previews: { 'preview-lq-mp3': `url${i + 1}` },
+        previews: { 
+          'preview-hq-mp3': `url${i + 1}`,
+          'preview-hq-ogg': `url${i + 1}`,
+          'preview-lq-mp3': `url${i + 1}`,
+          'preview-lq-ogg': `url${i + 1}`
+        },
       })),
     };
     

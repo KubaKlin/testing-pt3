@@ -21,7 +21,10 @@ vi.mock('../../store/freesoundApi', () => ({
 }));
 
 // Mock store for testing
-const createMockStore = (searchState = { query: '', currentPage: 1 }, favoritesState = { favorites: [] }) => {
+const createMockStore = (
+  searchState: { query: string; currentPage: number } = { query: '', currentPage: 1 }, 
+  favoritesState: { favorites: unknown[] } = { favorites: [] }
+) => {
   return configureStore({
     reducer: {
       search: (state = searchState) => state,
@@ -50,7 +53,16 @@ describe('the SoundSearch component', () => {
   it('should show favorites button when favorites exist', () => {
     const store = createMockStore(
       { query: '', currentPage: 1 },
-      { favorites: [{ id: 1, name: 'Test', previews: { 'preview-lq-mp3': 'url' } }] }
+      { favorites: [{ 
+        id: 1, 
+        name: 'Test', 
+        previews: { 
+          'preview-hq-mp3': 'url',
+          'preview-hq-ogg': 'url',
+          'preview-lq-mp3': 'url',
+          'preview-lq-ogg': 'url'
+        } 
+      }] }
     );
     
     const soundSearch = render(

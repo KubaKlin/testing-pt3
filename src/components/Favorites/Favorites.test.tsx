@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { BrowserRouter } from 'react-router-dom';
+import '@testing-library/jest-dom';
 import { Favorites } from './Favorites';
 import { SoundEffect } from '../../store/freesoundApi';
 
@@ -26,8 +27,26 @@ const createMockStore = (favorites: SoundEffect[] = []) => {
 
 describe('the Favorites component', () => {
   const mockFavorites: SoundEffect[] = [
-    { id: 1, name: 'Favorite 1', previews: { 'preview-lq-mp3': 'url1' } },
-    { id: 2, name: 'Favorite 2', previews: { 'preview-lq-mp3': 'url2' } },
+    { 
+      id: 1, 
+      name: 'Favorite 1', 
+      previews: { 
+        'preview-hq-mp3': 'url1',
+        'preview-hq-ogg': 'url1',
+        'preview-lq-mp3': 'url1',
+        'preview-lq-ogg': 'url1'
+      } 
+    },
+    { 
+      id: 2, 
+      name: 'Favorite 2', 
+      previews: { 
+        'preview-hq-mp3': 'url2',
+        'preview-hq-ogg': 'url2',
+        'preview-lq-mp3': 'url2',
+        'preview-lq-ogg': 'url2'
+      } 
+    },
   ];
 
   it('should render back button', () => {

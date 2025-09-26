@@ -64,7 +64,7 @@ describe('the SearchBox component', () => {
       </Provider>
     );
 
-    const input = searchBox.getByRole('textbox');
+    const input = searchBox.getByRole('textbox') as HTMLInputElement;
     
     fireEvent.change(input, { target: { value: 'test query' } });
     
@@ -80,7 +80,7 @@ describe('the SearchBox component', () => {
       </Provider>
     );
 
-    const input = searchBox.getByRole('textbox');
+    const input = searchBox.getByRole('textbox') as HTMLInputElement;
     
     fireEvent.change(input, { target: { value: 'test query' } });
     
@@ -98,7 +98,7 @@ describe('the SearchBox component', () => {
       </Provider>
     );
 
-    const input = searchBox.getByRole('textbox');
+    const input = searchBox.getByRole('textbox') as HTMLInputElement;
     
     fireEvent.change(input, { target: { value: 'test query' } });
     expect(input.value).toBe('test query');
