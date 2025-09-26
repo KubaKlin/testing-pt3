@@ -7,25 +7,29 @@ import {
   Pagination,
   Stack,
 } from '@mui/material';
-import { FreesoundSearchResponse } from '../../store/freesoundApi';
+import { FreesoundSearchResponse, SoundEffect } from '../../store/freesoundApi';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
 
 interface SearchResultsProps {
   data?: FreesoundSearchResponse;
+  favoriteData?: SoundEffect[];
   isLoading: boolean;
   error?: unknown;
   currentPage: number;
   totalCount: number;
   onPageChange: (page: number) => void;
+  mode?: 'search' | 'favorites';
 }
 
 export const SearchResults = ({
   data,
+  favoriteData,
   isLoading,
   error,
   currentPage,
   totalCount,
   onPageChange,
+  mode = 'search',
 }: SearchResultsProps) => {
   const totalPages = Math.ceil(totalCount / 15);
 
@@ -39,9 +43,7 @@ export const SearchResults = ({
     return (
       <Box display="flex" justifyContent="center" py={4}>
         <CircularProgress />
-        <Typography variant="body1" sx={{ ml: 2 }}>
-          Searching for sound effects...
-        </Typography>
+        <Typography variant="body1" sx={{ ml: 2 }}>Loading...</Typography>
       </Box>
     );
   }
@@ -49,8 +51,25 @@ export const SearchResults = ({
   if (error) {
     return (
       <Alert severity="error" sx={{ mt: 2 }}>
-        Error searching for sound effects
+        Error loading sound effects
       </Alert>
+    );
+  }
+
+  if (mode === 'favorites') {
+    return (
+      <Box>
+        <Typography variant="h6" gutterBottom>
+          Your Favorites ({favoriteData?.length} sound effects)
+        </Typography>
+        <Box>
+          {favoriteData?.map((soundEffect) => (
+            <Box key={soundEffect.id}>
+              <SoundEffectCard soundEffect={soundEffect} />
+            </Box>
+          ))}
+        </Box>
+      </Box>
     );
   }
 

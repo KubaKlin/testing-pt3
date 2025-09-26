@@ -1,6 +1,8 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store/store.ts';
+import { useNavigate } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { RootState } from '../../store/store';
 import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { setCurrentPage } from '../../store/searchSlice';
 import { SearchBox } from '../SearchBox/SearchBox';
@@ -8,8 +10,12 @@ import { SearchResults } from '../SearchResults/SearchResults';
 
 export const SoundSearch = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { query: searchQuery, currentPage } = useSelector(
     (state: RootState) => state.search,
+  );
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.favorites,
   );
 
   const { data, isLoading, error } = useSearchSoundsQuery(
@@ -23,12 +29,28 @@ export const SoundSearch = () => {
     dispatch(setCurrentPage(page));
   };
 
+  const handleGoToFavorites = () => {
+    navigate('/favorites');
+  };
+
   return (
     <Container maxWidth="lg">
       <Box textAlign="center">
         <Typography variant="h3" gutterBottom>
           Free sound search app
         </Typography>
+        {favorites.length > 0 && (
+          <Box display="flex" justifyContent="center" mb={2}>
+            <Button
+              startIcon={<FavoriteIcon />}
+              onClick={handleGoToFavorites}
+              variant="outlined"
+              color="primary"
+            >
+              Favorites ({favorites.length})
+            </Button>
+          </Box>
+        )}
       </Box>
 
       <SearchBox isLoading={isLoading} />
@@ -40,6 +62,7 @@ export const SoundSearch = () => {
         currentPage={currentPage}
         totalCount={data?.count || 0}
         onPageChange={handlePageChange}
+        mode="search"
       />
     </Container>
   );
