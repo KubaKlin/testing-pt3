@@ -1,6 +1,9 @@
 import { ChangeEvent } from 'react';
 import { Pagination } from '@mui/material';
-import { StyledPaginationContainer, StyledPageInfo } from './PaginationWrapper.styles';
+import {
+  StyledPaginationContainer,
+  StyledPageInfo,
+} from './PaginationWrapper.styles';
 
 interface PaginationProps {
   totalPages: number;
@@ -8,7 +11,11 @@ interface PaginationProps {
   handlePageChange: (event: ChangeEvent<unknown>, page: number) => void;
 }
 
-export const PaginationWrapper = ({ totalPages, currentPage, handlePageChange }: PaginationProps) => {
+export const PaginationWrapper = ({
+  totalPages,
+  currentPage,
+  handlePageChange,
+}: PaginationProps) => {
   return (
     <StyledPaginationContainer>
       <Pagination

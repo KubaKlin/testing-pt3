@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch } from 'react-redux';

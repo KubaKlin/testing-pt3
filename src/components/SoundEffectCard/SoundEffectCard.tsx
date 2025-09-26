@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SoundEffect } from '../../store/freesoundApi';
 import { addFavorite, removeFavorite } from '../../store/favoritesSlice';
 import { RootState } from '../../store/store';
-import { StyledCardContainer, StyledCardContent, StyledButtonContainer } from './SoundEffectCard.styles';
+import {
+  StyledCardContainer,
+  StyledCardContent,
+  StyledButtonContainer,
+} from './SoundEffectCard.styles';
 
 interface SoundEffectCardProps {
   soundEffect: SoundEffect;

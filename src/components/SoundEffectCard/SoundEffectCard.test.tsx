@@ -44,90 +44,90 @@ describe('the SoundEffectCard component', () => {
 
   it('should display sound effect name', () => {
     const store = createMockStore();
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const soundName = soundCard.getByText('Test Sound');
-    
+
     expect(soundName).toBeDefined();
   });
 
   it('should show play button when not playing', () => {
     const store = createMockStore();
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const playButton = soundCard.getByLabelText('Play sound');
-    
+
     expect(playButton).toBeDefined();
   });
 
   it('should show favorite border icon when not favorited', () => {
     const store = createMockStore();
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const favoriteButton = soundCard.getByLabelText('Add to favorites');
-    
+
     expect(favoriteButton).toBeDefined();
   });
 
   it('should show favorite icon when favorited', () => {
     const store = createMockStore([mockSoundEffect]);
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const favoriteButton = soundCard.getByLabelText('Remove from favorites');
-    
+
     expect(favoriteButton).toBeDefined();
   });
 
   it('should handle play button click', () => {
     const store = createMockStore();
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const playButton = soundCard.getByLabelText('Play sound');
     fireEvent.click(playButton);
-    
+
     // After clicking, it should show pause button
     const pauseButton = soundCard.getByLabelText('Pause sound');
-    
+
     expect(pauseButton).toBeDefined();
   });
 
   it('should handle favorite button click', () => {
     const store = createMockStore();
-    
+
     const soundCard = render(
       <Provider store={store}>
         <SoundEffectCard soundEffect={mockSoundEffect} />
-      </Provider>
+      </Provider>,
     );
 
     const favoriteButton = soundCard.getByLabelText('Add to favorites');
     fireEvent.click(favoriteButton);
-    
+
     // The button should still be there (functionality is mocked)
     expect(favoriteButton).toBeDefined();
   });

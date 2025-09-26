@@ -7,7 +7,10 @@ import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { setCurrentPage } from '../../store/searchSlice';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { SearchResults } from '../SearchResults/SearchResults';
-import { StyledHeaderContainer, StyledFavoritesButtonContainer } from './SoundSearch.styles';
+import {
+  StyledHeaderContainer,
+  StyledFavoritesButtonContainer,
+} from './SoundSearch.styles';
 
 export const SoundSearch = () => {
   const dispatch = useDispatch();

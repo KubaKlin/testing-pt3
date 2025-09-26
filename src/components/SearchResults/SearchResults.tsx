@@ -36,9 +36,7 @@ export const SearchResults = ({
   };
 
   if (isLoading) {
-    return (
-      <LoadingInfo/>
-    );
+    return <LoadingInfo />;
   }
 
   if (error) {
