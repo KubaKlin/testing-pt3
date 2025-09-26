@@ -2,13 +2,12 @@ import { ChangeEvent } from 'react';
 import {
   Box,
   Typography,
-  CircularProgress,
   Alert,
-  Pagination,
-  Stack,
 } from '@mui/material';
 import { FreesoundSearchResponse, SoundEffect } from '../../store/freesoundApi';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
+import { LoadingInfo } from '../LoadingInfo/LoadingInfo';
+import { PaginationWrapper } from '../PaginationWrapper/PaginationWrapper';
 
 interface SearchResultsProps {
   data?: FreesoundSearchResponse;
@@ -41,12 +40,7 @@ export const SearchResults = ({
 
   if (isLoading) {
     return (
-      <Box display="flex" justifyContent="center" py={4}>
-        <CircularProgress />
-        <Typography variant="body1" sx={{ ml: 2 }}>
-          Loading...
-        </Typography>
-      </Box>
+      <LoadingInfo/>
     );
   }
 
@@ -101,20 +95,11 @@ export const SearchResults = ({
       </Box>
 
       {totalPages > 1 && (
-        <Stack alignItems="center" sx={{ mt: 4 }}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            size="large"
-            showFirstButton
-            showLastButton
-          />
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            Page {currentPage} / {totalPages}
-          </Typography>
-        </Stack>
+        <PaginationWrapper
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
       )}
     </Box>
   );
