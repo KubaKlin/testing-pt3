@@ -12,10 +12,10 @@ const createMockStore = () => {
   });
 };
 
+const store = createMockStore();
+
 describe('the SearchBox component', () => {
   it('should render search input field', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -28,8 +28,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should display placeholder text', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -44,8 +42,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should render search button', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -58,8 +54,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should update input value when typing', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -74,8 +68,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should show clear button when input has value', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -92,8 +84,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should clear input when clear button is clicked', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -112,8 +102,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should disable search button when input is empty', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -126,8 +114,6 @@ describe('the SearchBox component', () => {
   });
 
   it('should enable search button when input has value', () => {
-    const store = createMockStore();
-
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
