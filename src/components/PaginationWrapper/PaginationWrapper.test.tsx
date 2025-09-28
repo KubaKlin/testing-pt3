@@ -3,9 +3,9 @@ import { render, fireEvent } from '@testing-library/react';
 import { PaginationWrapper } from './PaginationWrapper';
 
 describe('the PaginationWrapper component', () => {
-  it('should display current page and total pages', () => {
-    const mockHandlePageChange = vi.fn();
+  const mockHandlePageChange = vi.fn();
 
+  it('should display current page and total pages', () => {
     const pagination = render(
       <PaginationWrapper
         totalPages={10}
@@ -20,8 +20,6 @@ describe('the PaginationWrapper component', () => {
   });
 
   it('should handle page change when pagination is clicked', () => {
-    const mockHandlePageChange = vi.fn();
-
     const pagination = render(
       <PaginationWrapper
         totalPages={5}
@@ -37,8 +35,6 @@ describe('the PaginationWrapper component', () => {
   });
 
   it('should handle first page button click', () => {
-    const mockHandlePageChange = vi.fn();
-
     const pagination = render(
       <PaginationWrapper
         totalPages={5}
@@ -54,8 +50,6 @@ describe('the PaginationWrapper component', () => {
   });
 
   it('should handle last page button click', () => {
-    const mockHandlePageChange = vi.fn();
-
     const pagination = render(
       <PaginationWrapper
         totalPages={5}
@@ -71,8 +65,6 @@ describe('the PaginationWrapper component', () => {
   });
 
   it('should handle previous page button click', () => {
-    const mockHandlePageChange = vi.fn();
-
     const pagination = render(
       <PaginationWrapper
         totalPages={5}
