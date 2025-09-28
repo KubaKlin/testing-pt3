@@ -128,7 +128,6 @@ describe('the SoundEffectCard component', () => {
     const favoriteButton = soundCard.getByLabelText('Add to favorites');
     fireEvent.click(favoriteButton);
 
-    // The button should still be there (functionality is mocked)
     expect(favoriteButton).toBeDefined();
   });
 });

@@ -7,7 +7,6 @@ import '@testing-library/jest-dom';
 import { Favorites } from './Favorites';
 import { SoundEffect } from '../../store/freesoundApi';
 
-// Mock the child component
 vi.mock('../SearchResults/SearchResults', () => ({
   SearchResults: ({
     mode,
@@ -22,7 +21,6 @@ vi.mock('../SearchResults/SearchResults', () => ({
   ),
 }));
 
-// Mock store for testing
 const createMockStore = (favorites: SoundEffect[] = []) => {
   return configureStore({
     reducer: {
@@ -85,7 +83,6 @@ describe('the Favorites component', () => {
     const backButton = favorites.getByText('Back to Search');
     fireEvent.click(backButton);
 
-    // Button should still be there (navigation is mocked)
     expect(backButton).toBeDefined();
   });
 
