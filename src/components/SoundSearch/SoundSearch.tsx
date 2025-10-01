@@ -63,7 +63,6 @@ export const SoundSearch = () => {
         data={data}
         isLoading={isLoading}
         error={error}
-        currentPage={currentPage}
         totalCount={data?.count || 0}
         onPageChange={handlePageChange}
         mode="search"

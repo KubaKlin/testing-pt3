@@ -1,7 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { SearchResults } from './SearchResults';
-import { SoundEffect } from '../../store/freesoundApi';
+import { SoundEffect, FreesoundSearchResponse } from '../../store/freesoundApi';
+import searchReducer from '../../store/searchSlice';
 
 // Mock the child components
 vi.mock('../SoundEffectCard/SoundEffectCard', () => ({
@@ -17,27 +20,53 @@ vi.mock('../LoadingInfo/LoadingInfo', () => ({
 vi.mock('../PaginationWrapper/PaginationWrapper', () => ({
   PaginationWrapper: ({
     totalPages,
-    currentPage,
   }: {
     totalPages: number;
-    currentPage: number;
   }) => (
     <div data-testid="pagination">
-      Page {currentPage} of {totalPages}
+      Page 1 of {totalPages}
     </div>
   ),
 }));
 
+interface SearchResultsTestProps {
+  data?: FreesoundSearchResponse;
+  favoriteData?: SoundEffect[];
+  isLoading: boolean;
+  error?: unknown;
+  totalCount: number;
+  onPageChange: (page: number) => void;
+  mode?: 'search' | 'favorites';
+}
+
 describe('the SearchResults component', () => {
-  it('should show loading state when isLoading is true', () => {
-    const searchResults = render(
-      <SearchResults
-        isLoading={true}
-        currentPage={1}
-        totalCount={0}
-        onPageChange={vi.fn()}
-      />,
+  const renderWithStore = (currentPage: number = 1) => {
+    const store = configureStore({
+      reducer: {
+        search: searchReducer,
+      },
+      preloadedState: {
+        search: {
+          query: 'test',
+          currentPage,
+        },
+      },
+    });
+
+    return (props: SearchResultsTestProps) => render(
+      <Provider store={store}>
+        <SearchResults {...props} />
+      </Provider>,
     );
+  };
+
+  it('should show loading state when isLoading is true', () => {
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      isLoading: true,
+      totalCount: 0,
+      onPageChange: vi.fn(),
+    });
 
     const loadingInfo = searchResults.getByTestId('loading-info');
 
@@ -45,15 +74,13 @@ describe('the SearchResults component', () => {
   });
 
   it('should show error message when error occurs', () => {
-    const searchResults = render(
-      <SearchResults
-        isLoading={false}
-        error="Test error"
-        currentPage={1}
-        totalCount={0}
-        onPageChange={vi.fn()}
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      isLoading: false,
+      error: "Test error",
+      totalCount: 0,
+      onPageChange: vi.fn(),
+    });
 
     const errorMessage = searchResults.getByText('Error loading sound effects');
 
@@ -62,16 +89,13 @@ describe('the SearchResults component', () => {
 
   it('should show no results message when data is empty', () => {
     const mockData = { count: 0, results: [] };
-
-    const searchResults = render(
-      <SearchResults
-        data={mockData}
-        isLoading={false}
-        currentPage={1}
-        totalCount={0}
-        onPageChange={vi.fn()}
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      data: mockData,
+      isLoading: false,
+      totalCount: 0,
+      onPageChange: vi.fn(),
+    });
 
     const noResultsMessage = searchResults.getByText(
       'No sound effects found. Try different search terms.',
@@ -107,15 +131,13 @@ describe('the SearchResults component', () => {
       ],
     };
 
-    const searchResults = render(
-      <SearchResults
-        data={mockData}
-        isLoading={false}
-        currentPage={1}
-        totalCount={2}
-        onPageChange={vi.fn()}
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      data: mockData,
+      isLoading: false,
+      totalCount: 2,
+      onPageChange: vi.fn(),
+    });
 
     const resultsTitle = searchResults.getByText('Found 2 sound effects');
     const soundCard1 = searchResults.getByText('Test Sound 1');
@@ -150,16 +172,14 @@ describe('the SearchResults component', () => {
       },
     ];
 
-    const searchResults = render(
-      <SearchResults
-        favoriteData={mockFavorites}
-        isLoading={false}
-        currentPage={1}
-        totalCount={2}
-        onPageChange={vi.fn()}
-        mode="favorites"
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      favoriteData: mockFavorites,
+      isLoading: false,
+      totalCount: 2,
+      onPageChange: vi.fn(),
+      mode: "favorites",
+    });
 
     const favoritesTitle = searchResults.getByText(
       'Your Favorites (2 sound effects)',
@@ -187,15 +207,13 @@ describe('the SearchResults component', () => {
       })),
     };
 
-    const searchResults = render(
-      <SearchResults
-        data={mockData}
-        isLoading={false}
-        currentPage={1}
-        totalCount={30}
-        onPageChange={vi.fn()}
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      data: mockData,
+      isLoading: false,
+      totalCount: 30,
+      onPageChange: vi.fn(),
+    });
 
     const pagination = searchResults.getByTestId('pagination');
 
@@ -203,14 +221,12 @@ describe('the SearchResults component', () => {
   });
 
   it('should return null when no data is provided', () => {
-    const searchResults = render(
-      <SearchResults
-        isLoading={false}
-        currentPage={1}
-        totalCount={0}
-        onPageChange={vi.fn()}
-      />,
-    );
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({
+      isLoading: false,
+      totalCount: 0,
+      onPageChange: vi.fn(),
+    });
 
     expect(searchResults.container.firstChild).toBeNull();
   });

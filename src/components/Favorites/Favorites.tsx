@@ -32,7 +32,6 @@ export const Favorites = () => {
       <SearchResults
         favoriteData={favorites}
         isLoading={false}
-        currentPage={1}
         totalCount={favorites.length}
         onPageChange={() => {}}
         mode="favorites"

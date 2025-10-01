@@ -11,7 +11,6 @@ interface SearchResultsProps {
   favoriteData?: SoundEffect[];
   isLoading: boolean;
   error?: unknown;
-  currentPage: number;
   totalCount: number;
   onPageChange: (page: number) => void;
   mode?: 'search' | 'favorites';
@@ -22,7 +21,6 @@ export const SearchResults = ({
   favoriteData,
   isLoading,
   error,
-  currentPage,
   totalCount,
   onPageChange,
   mode = 'search',
@@ -92,7 +90,6 @@ export const SearchResults = ({
       {totalPages > 1 && (
         <PaginationWrapper
           totalPages={totalPages}
-          currentPage={currentPage}
           handlePageChange={handlePageChange}
         />
       )}
