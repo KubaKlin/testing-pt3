@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { SoundEffect, useSearchSoundsQuery } from '../../store/freesoundApi';
+import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { RootState } from '../../store/store';
 import { setCurrentPage } from '../../store/searchSlice';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
@@ -10,15 +10,8 @@ import { LoadingInfo } from '../LoadingInfo/LoadingInfo';
 import { PaginationWrapper } from '../PaginationWrapper/PaginationWrapper';
 import { StyledErrorAlert, StyledInfoAlert } from './SearchResults.styles';
 
-interface SearchResultsProps {
-  favoriteData?: SoundEffect[];
-  mode?: 'search' | 'favorites';
-}
 
-export const SearchResults = ({
-  favoriteData,
-  mode = 'search',
-}: SearchResultsProps) => {
+export const SearchResults = () => {
   const dispatch = useDispatch();
   const { query: searchQuery, currentPage } = useSelector(
     (state: RootState) => state.search,
@@ -27,7 +20,7 @@ export const SearchResults = ({
   const { data, isLoading, error } = useSearchSoundsQuery(
     { query: searchQuery, page: currentPage },
     {
-      skip: !searchQuery || mode === 'favorites',
+      skip: !searchQuery,
     },
   );
 
@@ -51,22 +44,6 @@ export const SearchResults = ({
     );
   }
 
-  if (mode === 'favorites') {
-    return (
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Your Favorites ({favoriteData?.length} sound effects)
-        </Typography>
-        <Box>
-          {favoriteData?.map((soundEffect) => (
-            <div key={soundEffect.id}>
-              <SoundEffectCard soundEffect={soundEffect} />
-            </div>
-          ))}
-        </Box>
-      </Box>
-    );
-  }
 
   if (data && data.results.length === 0) {
     return (

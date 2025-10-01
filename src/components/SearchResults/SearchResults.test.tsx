@@ -34,11 +34,6 @@ vi.mock('../../store/freesoundApi', () => ({
   useSearchSoundsQuery: vi.fn(),
 }));
 
-interface SearchResultsTestProps {
-  favoriteData?: SoundEffect[];
-  mode?: 'search' | 'favorites';
-}
-
 describe('the SearchResults component', () => {
   const renderWithStore = (currentPage: number = 1) => {
     const store = configureStore({
@@ -53,9 +48,9 @@ describe('the SearchResults component', () => {
       },
     });
 
-    return (props: SearchResultsTestProps) => render(
+    return () => render(
       <Provider store={store}>
-        <SearchResults {...props} />
+        <SearchResults />
       </Provider>,
     );
   };
@@ -69,7 +64,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     const loadingInfo = searchResults.getByTestId('loading-info');
 
@@ -85,7 +80,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     const errorMessage = searchResults.getByText('Error loading sound effects');
 
@@ -102,7 +97,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     const noResultsMessage = searchResults.getByText(
       'No sound effects found. Try different search terms.',
@@ -146,7 +141,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     const resultsTitle = searchResults.getByText('Found 2 sound effects');
     const soundCard1 = searchResults.getByText('Test Sound 1');
@@ -157,54 +152,6 @@ describe('the SearchResults component', () => {
     expect(soundCard2).toBeDefined();
   });
 
-  it('should show favorites when mode is favorites', () => {
-    const mockFavorites = [
-      {
-        id: 1,
-        name: 'Favorite Sound 1',
-        previews: {
-          'preview-hq-mp3': 'url1',
-          'preview-hq-ogg': 'url1',
-          'preview-lq-mp3': 'url1',
-          'preview-lq-ogg': 'url1',
-        },
-      },
-      {
-        id: 2,
-        name: 'Favorite Sound 2',
-        previews: {
-          'preview-hq-mp3': 'url2',
-          'preview-hq-ogg': 'url2',
-          'preview-lq-mp3': 'url2',
-          'preview-lq-ogg': 'url2',
-        },
-      },
-    ];
-
-    // Mock the hook to return empty data for favorites mode (since it should be skipped)
-    vi.mocked(useSearchSoundsQuery).mockReturnValue({
-      data: null,
-      isLoading: false,
-      error: null,
-      refetch: vi.fn(),
-    } as any);
-
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
-      favoriteData: mockFavorites,
-      mode: "favorites",
-    });
-
-    const favoritesTitle = searchResults.getByText(
-      'Your Favorites (2 sound effects)',
-    );
-    const favoriteCard1 = searchResults.getByText('Favorite Sound 1');
-    const favoriteCard2 = searchResults.getByText('Favorite Sound 2');
-
-    expect(favoritesTitle).toBeDefined();
-    expect(favoriteCard1).toBeDefined();
-    expect(favoriteCard2).toBeDefined();
-  });
 
   it('should show pagination when totalPages is greater than 1', () => {
     const mockData = {
@@ -229,7 +176,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     const pagination = searchResults.getByTestId('pagination');
 
@@ -245,7 +192,7 @@ describe('the SearchResults component', () => {
     } as any);
 
     const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({});
+    const searchResults = renderComponent();
 
     expect(searchResults.container.firstChild).toBeNull();
   });

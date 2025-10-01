@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { RootState } from '../../store/store';
-import { SearchResults } from '../SearchResults/SearchResults';
+import { FavoritesList } from '../FavoritesList/FavoritesList';
 import { StyledFavoritesContainer, StyledBackButton } from './Favorites.styles';
 
 export const Favorites = () => {
@@ -29,10 +29,7 @@ export const Favorites = () => {
         Back to Search
       </StyledBackButton>
 
-      <SearchResults
-        favoriteData={favorites}
-        mode="favorites"
-      />
+      <FavoritesList favoriteData={favorites} />
     </StyledFavoritesContainer>
   );
 };

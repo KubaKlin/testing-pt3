@@ -97,11 +97,9 @@ describe('the Favorites component', () => {
       </BrowserRouter>,
     );
 
-    const searchResults = favorites.getByTestId('search-results');
+    const favoritesTitle = favorites.getByText('Your Favorites (0 sound effects)');
 
-    expect(searchResults).toHaveTextContent(
-      'Favorites Results (Mode: favorites, Count: 0)',
-    );
+    expect(favoritesTitle).toBeInTheDocument();
   });
 
   it('should handle multiple favorites correctly', () => {
@@ -115,8 +113,12 @@ describe('the Favorites component', () => {
       </BrowserRouter>,
     );
 
-    const searchResults = favorites.getByTestId('search-results');
+    const favoritesTitle = favorites.getByText('Your Favorites (2 sound effects)');
+    const favoriteCard1 = favorites.getByText('Favorite 1');
+    const favoriteCard2 = favorites.getByText('Favorite 2');
 
-    expect(searchResults).toHaveTextContent('Count: 2');
+    expect(favoritesTitle).toBeInTheDocument();
+    expect(favoriteCard1).toBeInTheDocument();
+    expect(favoriteCard2).toBeInTheDocument();
   });
 });

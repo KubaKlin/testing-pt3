@@ -53,7 +53,7 @@ export const SoundSearch = () => {
 
       <SearchBox isLoading={isLoading} />
 
-      <SearchResults mode="search" />
+      <SearchResults />
     </Container>
   );
 };
