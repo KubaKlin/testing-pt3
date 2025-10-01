@@ -1,6 +1,6 @@
 import { Container, Typography, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { RootState } from '../../store/store';
 import { useSearchSoundsQuery } from '../../store/freesoundApi';
@@ -12,7 +12,6 @@ import {
 } from './SoundSearch.styles';
 
 export const SoundSearch = () => {
-  const navigate = useNavigate();
   const { query: searchQuery } = useSelector(
     (state: RootState) => state.search,
   );
@@ -27,10 +26,6 @@ export const SoundSearch = () => {
     },
   );
 
-  const handleGoToFavorites = () => {
-    navigate('/favorites');
-  };
-
   return (
     <Container maxWidth="lg">
       <StyledHeaderContainer>
@@ -40,8 +35,9 @@ export const SoundSearch = () => {
         {favorites.length > 0 && (
           <StyledFavoritesButtonContainer>
             <Button
+              component={Link}
+              to="/favorites"
               startIcon={<FavoriteIcon />}
-              onClick={handleGoToFavorites}
               variant="outlined"
               color="primary"
             >
