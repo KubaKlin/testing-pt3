@@ -1,10 +1,9 @@
 import { Container, Typography, Button } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { RootState } from '../../store/store';
 import { useSearchSoundsQuery } from '../../store/freesoundApi';
-import { setCurrentPage } from '../../store/searchSlice';
 import { SearchBox } from '../SearchBox/SearchBox';
 import { SearchResults } from '../SearchResults/SearchResults';
 import {
@@ -13,25 +12,20 @@ import {
 } from './SoundSearch.styles';
 
 export const SoundSearch = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { query: searchQuery, currentPage } = useSelector(
+  const { query: searchQuery } = useSelector(
     (state: RootState) => state.search,
   );
   const favorites = useSelector(
     (state: RootState) => state.favorites.favorites,
   );
 
-  const { data, isLoading, error } = useSearchSoundsQuery(
-    { query: searchQuery, page: currentPage },
+  const { isLoading } = useSearchSoundsQuery(
+    { query: searchQuery, page: 1 },
     {
       skip: !searchQuery,
     },
   );
-
-  const handlePageChange = (page: number) => {
-    dispatch(setCurrentPage(page));
-  };
 
   const handleGoToFavorites = () => {
     navigate('/favorites');
@@ -59,14 +53,7 @@ export const SoundSearch = () => {
 
       <SearchBox isLoading={isLoading} />
 
-      <SearchResults
-        data={data}
-        isLoading={isLoading}
-        error={error}
-        totalCount={data?.count || 0}
-        onPageChange={handlePageChange}
-        mode="search"
-      />
+      <SearchResults mode="search" />
     </Container>
   );
 };

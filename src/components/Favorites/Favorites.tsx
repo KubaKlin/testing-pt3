@@ -31,9 +31,6 @@ export const Favorites = () => {
 
       <SearchResults
         favoriteData={favorites}
-        isLoading={false}
-        totalCount={favorites.length}
-        onPageChange={() => {}}
         mode="favorites"
       />
     </StyledFavoritesContainer>

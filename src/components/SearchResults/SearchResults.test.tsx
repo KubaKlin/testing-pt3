@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { SearchResults } from './SearchResults';
-import { SoundEffect, FreesoundSearchResponse } from '../../store/freesoundApi';
+import { SoundEffect, useSearchSoundsQuery } from '../../store/freesoundApi';
 import searchReducer from '../../store/searchSlice';
 
 // Mock the child components
@@ -29,13 +29,13 @@ vi.mock('../PaginationWrapper/PaginationWrapper', () => ({
   ),
 }));
 
+// Mock the API hook
+vi.mock('../../store/freesoundApi', () => ({
+  useSearchSoundsQuery: vi.fn(),
+}));
+
 interface SearchResultsTestProps {
-  data?: FreesoundSearchResponse;
   favoriteData?: SoundEffect[];
-  isLoading: boolean;
-  error?: unknown;
-  totalCount: number;
-  onPageChange: (page: number) => void;
   mode?: 'search' | 'favorites';
 }
 
@@ -61,12 +61,15 @@ describe('the SearchResults component', () => {
   };
 
   it('should show loading state when isLoading is true', () => {
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
+      data: null,
       isLoading: true,
-      totalCount: 0,
-      onPageChange: vi.fn(),
-    });
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     const loadingInfo = searchResults.getByTestId('loading-info');
 
@@ -74,13 +77,15 @@ describe('the SearchResults component', () => {
   });
 
   it('should show error message when error occurs', () => {
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
+      data: null,
       isLoading: false,
       error: "Test error",
-      totalCount: 0,
-      onPageChange: vi.fn(),
-    });
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     const errorMessage = searchResults.getByText('Error loading sound effects');
 
@@ -89,13 +94,15 @@ describe('the SearchResults component', () => {
 
   it('should show no results message when data is empty', () => {
     const mockData = { count: 0, results: [] };
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
       isLoading: false,
-      totalCount: 0,
-      onPageChange: vi.fn(),
-    });
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     const noResultsMessage = searchResults.getByText(
       'No sound effects found. Try different search terms.',
@@ -131,13 +138,15 @@ describe('the SearchResults component', () => {
       ],
     };
 
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
       isLoading: false,
-      totalCount: 2,
-      onPageChange: vi.fn(),
-    });
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     const resultsTitle = searchResults.getByText('Found 2 sound effects');
     const soundCard1 = searchResults.getByText('Test Sound 1');
@@ -172,12 +181,17 @@ describe('the SearchResults component', () => {
       },
     ];
 
+    // Mock the hook to return empty data for favorites mode (since it should be skipped)
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent({
       favoriteData: mockFavorites,
-      isLoading: false,
-      totalCount: 2,
-      onPageChange: vi.fn(),
       mode: "favorites",
     });
 
@@ -207,13 +221,15 @@ describe('the SearchResults component', () => {
       })),
     };
 
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
       isLoading: false,
-      totalCount: 30,
-      onPageChange: vi.fn(),
-    });
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     const pagination = searchResults.getByTestId('pagination');
 
@@ -221,12 +237,15 @@ describe('the SearchResults component', () => {
   });
 
   it('should return null when no data is provided', () => {
-    const renderComponent = renderWithStore(1);
-    const searchResults = renderComponent({
+    vi.mocked(useSearchSoundsQuery).mockReturnValue({
+      data: null,
       isLoading: false,
-      totalCount: 0,
-      onPageChange: vi.fn(),
-    });
+      error: null,
+      refetch: vi.fn(),
+    } as any);
+
+    const renderComponent = renderWithStore(1);
+    const searchResults = renderComponent({});
 
     expect(searchResults.container.firstChild).toBeNull();
   });

@@ -1,35 +1,41 @@
 import { ChangeEvent } from 'react';
 import { Typography, Box } from '@mui/material';
-import { FreesoundSearchResponse, SoundEffect } from '../../store/freesoundApi';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { SoundEffect, useSearchSoundsQuery } from '../../store/freesoundApi';
+import { RootState } from '../../store/store';
+import { setCurrentPage } from '../../store/searchSlice';
 import { SoundEffectCard } from '../SoundEffectCard/SoundEffectCard';
 import { LoadingInfo } from '../LoadingInfo/LoadingInfo';
 import { PaginationWrapper } from '../PaginationWrapper/PaginationWrapper';
 import { StyledErrorAlert, StyledInfoAlert } from './SearchResults.styles';
 
 interface SearchResultsProps {
-  data?: FreesoundSearchResponse;
   favoriteData?: SoundEffect[];
-  isLoading: boolean;
-  error?: unknown;
-  totalCount: number;
-  onPageChange: (page: number) => void;
   mode?: 'search' | 'favorites';
 }
 
 export const SearchResults = ({
-  data,
   favoriteData,
-  isLoading,
-  error,
-  totalCount,
-  onPageChange,
   mode = 'search',
 }: SearchResultsProps) => {
-  const totalPages = Math.ceil(totalCount / 15);
+  const dispatch = useDispatch();
+  const { query: searchQuery, currentPage } = useSelector(
+    (state: RootState) => state.search,
+  );
+
+  const { data, isLoading, error } = useSearchSoundsQuery(
+    { query: searchQuery, page: currentPage },
+    {
+      skip: !searchQuery || mode === 'favorites',
+    },
+  );
+
+  const totalPages = Math.ceil((data?.count || 0) / 15);
 
   const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
     event.preventDefault();
-    onPageChange(page);
+    dispatch(setCurrentPage(page));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
