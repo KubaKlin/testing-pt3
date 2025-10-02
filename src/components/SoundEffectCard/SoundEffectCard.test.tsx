@@ -14,12 +14,6 @@ const createMockStore = (favorites: SoundEffect[] = []) => {
   });
 };
 
-// Mock the Redux actions
-vi.mock('../../store/favoritesSlice', () => ({
-  addFavorite: vi.fn(() => ({ type: 'favorites/addFavorite' })),
-  removeFavorite: vi.fn(() => ({ type: 'favorites/removeFavorite' })),
-}));
-
 // Mock HTMLAudioElement for native audio element
 Object.defineProperty(HTMLAudioElement.prototype, 'play', {
   writable: true,
@@ -32,7 +26,7 @@ Object.defineProperty(HTMLAudioElement.prototype, 'pause', {
 });
 
 describe('the SoundEffectCard component', () => {
-  const mockSoundEffect: SoundEffect = {
+  const createMockSoundEffect = (): SoundEffect => ({
     id: 1,
     name: 'Test Sound',
     previews: {
@@ -41,9 +35,10 @@ describe('the SoundEffectCard component', () => {
       'preview-lq-mp3': 'url3',
       'preview-lq-ogg': 'url4',
     },
-  };
+  });
 
   it('should display sound effect name', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -58,6 +53,7 @@ describe('the SoundEffectCard component', () => {
   });
 
   it('should show audio element with controls', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -74,7 +70,8 @@ describe('the SoundEffectCard component', () => {
     expect(audioElement).toHaveAttribute('preload', 'none');
   });
 
-  it('should show favorite border icon when not favorited', () => {
+  it('should show favorite icon when not favorited', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -89,6 +86,7 @@ describe('the SoundEffectCard component', () => {
   });
 
   it('should show favorite icon when favorited', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore([mockSoundEffect]);
 
     const soundCard = render(
@@ -103,6 +101,7 @@ describe('the SoundEffectCard component', () => {
   });
 
   it('should have audio source with correct URL', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -120,6 +119,7 @@ describe('the SoundEffectCard component', () => {
   });
 
   it('should handle favorite button click', () => {
+    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
