@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 export const StyledFavoritesContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -7,6 +7,3 @@ export const StyledFavoritesContainer = styled(Box)(({ theme }) => ({
   marginX: 'auto',
 }));
 
-export const StyledBackButton = styled(Button)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-}));
