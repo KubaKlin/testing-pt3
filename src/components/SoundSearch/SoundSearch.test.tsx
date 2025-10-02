@@ -15,7 +15,7 @@ vi.mock('../SearchResults/SearchResults', () => ({
 vi.mock('../../store/freesoundApi', () => ({
   useSearchSoundsQuery: vi.fn(() => ({
     data: null,
-    isLoading: false,
+    isFetching: false,
     error: null,
   })),
 }));

@@ -17,7 +17,7 @@ export const SearchResults = () => {
     (state: RootState) => state.search,
   );
 
-  const { data, isLoading, error } = useSearchSoundsQuery(
+  const { data, isFetching, error } = useSearchSoundsQuery(
     { query: searchQuery, page: currentPage },
     {
       skip: !searchQuery,
@@ -32,7 +32,7 @@ export const SearchResults = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoading) {
+  if (isFetching) {
     return <LoadingInfo />;
   }
 

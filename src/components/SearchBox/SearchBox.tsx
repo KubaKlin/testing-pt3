@@ -9,10 +9,10 @@ import { setSearchQuery, clearSearch } from '../../store/searchSlice';
 import { StyledSearchForm, StyledSearchButton } from './SearchBox.styles';
 
 interface SearchBoxProps {
-  isLoading?: boolean;
+  isFetching?: boolean;
 }
 
-export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
+export const SearchBox = ({ isFetching = false }: SearchBoxProps) => {
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
         placeholder="Search for sound effects (e.g., dogs, rain, music)..."
         value={localSearchQuery}
         onChange={(event) => setLocalSearchQuery(event.target.value)}
-        disabled={isLoading}
+        disabled={isFetching}
         aria-label="Search for sound effects"
         slotProps={{
           input: {
@@ -65,11 +65,11 @@ export const SearchBox = ({ isLoading = false }: SearchBoxProps) => {
       <StyledSearchButton
         type="submit"
         variant="contained"
-        disabled={!localSearchQuery.trim() || isLoading}
+        disabled={!localSearchQuery.trim() || isFetching}
         aria-label="Search"
         tabIndex={0}
       >
-        {isLoading ? 'Searching...' : 'Search'}
+        {isFetching ? 'Searching...' : 'Search'}
       </StyledSearchButton>
     </StyledSearchForm>
   );

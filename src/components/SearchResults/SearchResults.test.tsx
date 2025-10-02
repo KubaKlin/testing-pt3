@@ -55,10 +55,10 @@ describe('the SearchResults component', () => {
     );
   };
 
-  it('should show loading state when isLoading is true', () => {
+  it('should show loading state when isFetching is true', () => {
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: null,
-      isLoading: true,
+      isFetching: true,
       error: null,
       refetch: vi.fn(),
     } as any);
@@ -74,7 +74,7 @@ describe('the SearchResults component', () => {
   it('should show error message when error occurs', () => {
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: null,
-      isLoading: false,
+      isFetching: false,
       error: "Test error",
       refetch: vi.fn(),
     } as any);
@@ -91,7 +91,7 @@ describe('the SearchResults component', () => {
     const mockData = { count: 0, results: [] };
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
-      isLoading: false,
+      isFetching: false,
       error: null,
       refetch: vi.fn(),
     } as any);
@@ -135,7 +135,7 @@ describe('the SearchResults component', () => {
 
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
-      isLoading: false,
+      isFetching: false,
       error: null,
       refetch: vi.fn(),
     } as any);
@@ -170,7 +170,7 @@ describe('the SearchResults component', () => {
 
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: mockData,
-      isLoading: false,
+      isFetching: false,
       error: null,
       refetch: vi.fn(),
     } as any);
@@ -186,7 +186,7 @@ describe('the SearchResults component', () => {
   it('should return null when no data is provided', () => {
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: null,
-      isLoading: false,
+      isFetching: false,
       error: null,
       refetch: vi.fn(),
     } as any);
