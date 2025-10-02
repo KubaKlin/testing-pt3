@@ -4,12 +4,16 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { SoundEffectCard } from './SoundEffectCard';
 import { SoundEffect } from '../../store/freesoundApi';
+import favoritesReducer from '../../store/favoritesSlice';
 
 // Mock store for testing
 const createMockStore = (favorites: SoundEffect[] = []) => {
   return configureStore({
     reducer: {
-      favorites: (state = { favorites }) => state,
+      favorites: favoritesReducer,
+    },
+    preloadedState: {
+      favorites: { favorites },
     },
   });
 };
@@ -70,7 +74,7 @@ describe('the SoundEffectCard component', () => {
     expect(audioElement).toHaveAttribute('preload', 'none');
   });
 
-  it('should show favorite icon when not favorited', () => {
+  it('should show `add to favorite` icon when not favorited', () => {
     const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
@@ -85,7 +89,7 @@ describe('the SoundEffectCard component', () => {
     expect(favoriteButton).toBeDefined();
   });
 
-  it('should show favorite icon when favorited', () => {
+  it('should show `remove from favorites` icon when favorited', () => {
     const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore([mockSoundEffect]);
 
@@ -118,7 +122,7 @@ describe('the SoundEffectCard component', () => {
     expect(sourceElement).toHaveAttribute('type', 'audio/mpeg');
   });
 
-  it('should handle favorite button click', () => {
+  it('should add sound effect to favorites when favorite button is clicked', () => {
     const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
@@ -131,6 +135,25 @@ describe('the SoundEffectCard component', () => {
     const favoriteButton = soundCard.getByLabelText('Add to favorites');
     fireEvent.click(favoriteButton);
 
-    expect(favoriteButton).toBeDefined();
+    // Verify the sound effect was added to favorites
+    const state = store.getState();
+    expect(state.favorites.favorites).toHaveLength(1);
+  });
+
+  it('should remove sound effect from favorites when favorite button is clicked on favorited item', () => {
+    const mockSoundEffect = createMockSoundEffect();
+    const store = createMockStore([mockSoundEffect]);
+
+    const soundCard = render(
+      <Provider store={store}>
+        <SoundEffectCard soundEffect={mockSoundEffect} />
+      </Provider>,
+    );
+
+    const favoriteButton = soundCard.getByLabelText('Remove from favorites');
+    fireEvent.click(favoriteButton);
+
+    const state = store.getState();
+    expect(state.favorites.favorites).toHaveLength(0);
   });
 });
