@@ -2,36 +2,22 @@ import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 import { SearchResults } from './SearchResults';
-import { SoundEffect, useSearchSoundsQuery } from '../../store/freesoundApi';
+import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import searchReducer from '../../store/searchSlice';
-
-// Mock the child components
-vi.mock('../SoundEffectCard/SoundEffectCard', () => ({
-  SoundEffectCard: ({ soundEffect }: { soundEffect: SoundEffect }) => (
-    <div data-testid="sound-effect-card">{soundEffect.name}</div>
-  ),
-}));
-
-vi.mock('../LoadingInfo/LoadingInfo', () => ({
-  LoadingInfo: () => <div data-testid="loading-info">Loading...</div>,
-}));
-
-vi.mock('../PaginationWrapper/PaginationWrapper', () => ({
-  PaginationWrapper: ({
-    totalPages,
-  }: {
-    totalPages: number;
-  }) => (
-    <div data-testid="pagination">
-      Page 1 of {totalPages}
-    </div>
-  ),
-}));
+import favoritesReducer from '../../store/favoritesSlice';
+import { freesoundApi } from '../../store/freesoundApi';
+import { favoritesMiddleware } from '../../store/favoritesMiddleware';
 
 // Mock the API hook
 vi.mock('../../store/freesoundApi', () => ({
   useSearchSoundsQuery: vi.fn(),
+  freesoundApi: {
+    reducerPath: 'freesoundApi',
+    reducer: (state = {}) => state,
+    middleware: (() => (next) => (action) => next(action)) as Middleware,
+  },
 }));
 
 describe('the SearchResults component', () => {
@@ -39,11 +25,20 @@ describe('the SearchResults component', () => {
     const store = configureStore({
       reducer: {
         search: searchReducer,
+        favorites: favoritesReducer,
+        [freesoundApi.reducerPath]: freesoundApi.reducer,
       },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+          .concat(freesoundApi.middleware)
+          .concat(favoritesMiddleware),
       preloadedState: {
         search: {
           query: 'test',
           currentPage,
+        },
+        favorites: {
+          favorites: [],
         },
       },
     });
@@ -66,9 +61,7 @@ describe('the SearchResults component', () => {
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
 
-    const loadingInfo = searchResults.getByTestId('loading-info');
-
-    expect(loadingInfo).toBeDefined();
+    expect(searchResults.getByText('Loading...')).toBeDefined();
   });
 
   it('should show error message when error occurs', () => {
@@ -178,9 +171,7 @@ describe('the SearchResults component', () => {
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
 
-    const pagination = searchResults.getByTestId('pagination');
-
-    expect(pagination).toBeDefined();
+    expect(searchResults.getByText('Page 1 / 2')).toBeDefined();
   });
 
   it('should return null when no data is provided', () => {

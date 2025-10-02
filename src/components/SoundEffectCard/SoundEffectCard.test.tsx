@@ -20,14 +20,15 @@ vi.mock('../../store/favoritesSlice', () => ({
   removeFavorite: vi.fn(() => ({ type: 'favorites/removeFavorite' })),
 }));
 
-// Mock HTMLAudioElement
-Object.defineProperty(window, 'Audio', {
+// Mock HTMLAudioElement for native audio element
+Object.defineProperty(HTMLAudioElement.prototype, 'play', {
   writable: true,
-  value: vi.fn().mockImplementation(() => ({
-    play: vi.fn(),
-    pause: vi.fn(),
-    addEventListener: vi.fn(),
-  })),
+  value: vi.fn(),
+});
+
+Object.defineProperty(HTMLAudioElement.prototype, 'pause', {
+  writable: true,
+  value: vi.fn(),
 });
 
 describe('the SoundEffectCard component', () => {
@@ -56,7 +57,7 @@ describe('the SoundEffectCard component', () => {
     expect(soundName).toBeDefined();
   });
 
-  it('should show play button when not playing', () => {
+  it('should show audio element with controls', () => {
     const store = createMockStore();
 
     const soundCard = render(
@@ -65,9 +66,12 @@ describe('the SoundEffectCard component', () => {
       </Provider>,
     );
 
-    const playButton = soundCard.getByLabelText('Play sound');
+    const audioElement = soundCard.getByLabelText('Test Sound');
 
-    expect(playButton).toBeDefined();
+    expect(audioElement).toBeDefined();
+    expect(audioElement.tagName).toBe('AUDIO');
+    expect(audioElement).toHaveAttribute('controls');
+    expect(audioElement).toHaveAttribute('preload', 'none');
   });
 
   it('should show favorite border icon when not favorited', () => {
@@ -98,7 +102,7 @@ describe('the SoundEffectCard component', () => {
     expect(favoriteButton).toBeDefined();
   });
 
-  it('should handle play button click', () => {
+  it('should have audio source with correct URL', () => {
     const store = createMockStore();
 
     const soundCard = render(
@@ -107,13 +111,12 @@ describe('the SoundEffectCard component', () => {
       </Provider>,
     );
 
-    const playButton = soundCard.getByLabelText('Play sound');
-    fireEvent.click(playButton);
+    const audioElement = soundCard.getByLabelText('Test Sound');
+    const sourceElement = audioElement.querySelector('source');
 
-    // After clicking, it should show pause button
-    const pauseButton = soundCard.getByLabelText('Pause sound');
-
-    expect(pauseButton).toBeDefined();
+    expect(sourceElement).toBeDefined();
+    expect(sourceElement).toHaveAttribute('src', 'url3');
+    expect(sourceElement).toHaveAttribute('type', 'audio/mpeg');
   });
 
   it('should handle favorite button click', () => {
