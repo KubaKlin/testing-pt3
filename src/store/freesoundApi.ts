@@ -21,7 +21,11 @@ interface SearchParams {
   page: number;
 }
 
-const FREESOUND_API_KEY = 'M80wfthcPGELZtZRI0vUKoU8aVEtwAum5raYonBg';
+const FREESOUND_API_KEY = import.meta.env.VITE_FREESOUND_API_KEY;
+
+if (!FREESOUND_API_KEY) {
+  throw new Error('environment variable is required');
+}
 
 export const freesoundApi = createApi({
   reducerPath: 'freesoundApi',
