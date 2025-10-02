@@ -29,7 +29,7 @@ Object.defineProperty(HTMLAudioElement.prototype, 'pause', {
   value: vi.fn(),
 });
 
-describe('the SoundEffectCard component', () => {
+describe('The SoundEffectCard component', () => {
   const createMockSoundEffect = (): SoundEffect => ({
     id: 1,
     name: 'Test Sound',

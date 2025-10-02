@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { PaginationWrapper } from './PaginationWrapper';
 import searchReducer from '../../store/searchSlice';
 
-describe('the PaginationWrapper component', () => {
+describe('The PaginationWrapper component', () => {
   const mockHandlePageChange = vi.fn();
 
   const renderWithStore = (currentPage: number) => {
@@ -31,7 +31,7 @@ describe('the PaginationWrapper component', () => {
     );
   };
 
-  it('should display current page and total pages', () => {
+  it('should display the current page and the number of total pages', () => {
     const pagination = renderWithStore(3);
 
     const pageInfo = pagination.getByText('Page 3 / 10');
@@ -39,7 +39,7 @@ describe('the PaginationWrapper component', () => {
     expect(pageInfo).toBeDefined();
   });
 
-  it('should handle page change when pagination is clicked', () => {
+  it('should handle the page change when pagination is clicked', () => {
     const pagination = renderWithStore(1);
 
     const nextButton = pagination.getByLabelText('Go to next page');
@@ -48,7 +48,7 @@ describe('the PaginationWrapper component', () => {
     expect(mockHandlePageChange).toHaveBeenCalledWith(expect.any(Object), 2);
   });
 
-  it('should handle first page button click', () => {
+  it('should handle the `first page` button click and redirect to the first page', () => {
     const pagination = renderWithStore(3);
 
     const firstButton = pagination.getByLabelText('Go to first page');
@@ -57,7 +57,7 @@ describe('the PaginationWrapper component', () => {
     expect(mockHandlePageChange).toHaveBeenCalledWith(expect.any(Object), 1);
   });
 
-  it('should handle last page button click', () => {
+  it('should handle the `last page` button click and redirect to the last age', () => {
     const pagination = renderWithStore(2);
 
     const lastButton = pagination.getByLabelText('Go to last page');
@@ -66,7 +66,7 @@ describe('the PaginationWrapper component', () => {
     expect(mockHandlePageChange).toHaveBeenCalledWith(expect.any(Object), 10);
   });
 
-  it('should handle previous page button click', () => {
+  it('should handle the `previous page` button click and redirect to the previous page', () => {
     const pagination = renderWithStore(3);
 
     const prevButton = pagination.getByLabelText('Go to previous page');

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -6,20 +6,6 @@ import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { Favorites } from './Favorites';
 import { SoundEffect } from '../../store/freesoundApi';
-
-vi.mock('../SearchResults/SearchResults', () => ({
-  SearchResults: ({
-    mode,
-    favoriteData,
-  }: {
-    mode?: string;
-    favoriteData?: SoundEffect[];
-  }) => (
-    <div data-testid="search-results">
-      Favorites Results (Mode: {mode}, Count: {favoriteData?.length || 0})
-    </div>
-  ),
-}));
 
 const createMockStore = (favorites: SoundEffect[] = []) => {
   return configureStore({
@@ -29,7 +15,7 @@ const createMockStore = (favorites: SoundEffect[] = []) => {
   });
 };
 
-describe('the Favorites component', () => {
+describe('The Favorites component', () => {
   const mockFavorites: SoundEffect[] = [
     {
       id: 1,
@@ -53,7 +39,7 @@ describe('the Favorites component', () => {
     },
   ];
 
-  it('should render back button', () => {
+  it('should render a back button', () => {
     const store = createMockStore();
 
     const favorites = render(
@@ -102,7 +88,7 @@ describe('the Favorites component', () => {
     expect(favoritesTitle).toBeInTheDocument();
   });
 
-  it('should handle multiple favorites correctly', () => {
+  it('should show the correct number of favorites', () => {
     const store = createMockStore(mockFavorites);
 
     const favorites = render(

@@ -14,7 +14,7 @@ const createMockStore = () => {
 
 const store = createMockStore();
 
-describe('the SearchBox component', () => {
+describe('The SearchBox component', () => {
   it('should render search input field', () => {
     const searchBox = render(
       <Provider store={store}>

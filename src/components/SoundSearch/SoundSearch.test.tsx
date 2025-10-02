@@ -5,12 +5,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { BrowserRouter } from 'react-router-dom';
 import { SoundSearch } from './SoundSearch';
 
-vi.mock('../SearchResults/SearchResults', () => ({
-  SearchResults: ({ mode }: { mode?: string }) => (
-    <div data-testid="search-results">Search Results (Mode: {mode})</div>
-  ),
-}));
-
 // Mock the API hook
 vi.mock('../../store/freesoundApi', () => ({
   useSearchSoundsQuery: vi.fn(() => ({
@@ -36,7 +30,7 @@ const createMockStore = (
   });
 };
 
-describe('the SoundSearch component', () => {
+describe('The SoundSearch component', () => {
   it('should render main title', () => {
     const store = createMockStore();
 

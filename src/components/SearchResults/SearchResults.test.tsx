@@ -20,7 +20,7 @@ vi.mock('../../store/freesoundApi', () => ({
   },
 }));
 
-describe('the SearchResults component', () => {
+describe('The SearchResults component', () => {
   const renderWithStore = (currentPage: number = 1) => {
     const store = configureStore({
       reducer: {
