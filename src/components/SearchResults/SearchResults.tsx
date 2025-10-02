@@ -24,7 +24,8 @@ export const SearchResults = () => {
     },
   );
 
-  const totalPages = Math.ceil((data?.count || 0) / 15);
+  const RESULTS_PER_PAGE = 15;
+  const totalPages = Math.ceil((data?.count || 0) / RESULTS_PER_PAGE);
 
   const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
     event.preventDefault();
