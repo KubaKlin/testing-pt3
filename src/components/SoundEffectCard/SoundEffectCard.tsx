@@ -1,7 +1,4 @@
-import { useState, useRef } from 'react';
 import { Typography, IconButton } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +9,7 @@ import {
   StyledCardContainer,
   StyledCardContent,
   StyledButtonContainer,
+  StyledAudio,
 } from './SoundEffectCard.styles';
 
 interface SoundEffectCardProps {
@@ -19,8 +17,6 @@ interface SoundEffectCardProps {
 }
 
 export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const dispatch = useDispatch();
 
   const favorites = useSelector(
@@ -29,21 +25,6 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
   const isFavorite = favorites.some(
     (favorite: SoundEffect) => favorite.id === soundEffect.id,
   );
-
-  const handlePlayPause = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio(soundEffect.previews['preview-lq-mp3']);
-      audioRef.current.addEventListener('ended', () => setIsPlaying(false));
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
 
   const handleToggleFavorite = () => {
     if (isFavorite) {
@@ -58,6 +39,14 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
       <StyledCardContent>
         <Typography variant="body1">{soundEffect.name}</Typography>
         <StyledButtonContainer>
+          <StyledAudio
+            controls
+            preload="none"
+            aria-label={soundEffect.name}
+          >
+            <source src={soundEffect.previews['preview-lq-mp3']} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </StyledAudio>
           <IconButton
             onClick={handleToggleFavorite}
             aria-label={
@@ -67,14 +56,6 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
             size="medium"
           >
             {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <IconButton
-            onClick={handlePlayPause}
-            aria-label={isPlaying ? 'Pause sound' : 'Play sound'}
-            color="primary"
-            size="medium"
-          >
-            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
         </StyledButtonContainer>
       </StyledCardContent>
