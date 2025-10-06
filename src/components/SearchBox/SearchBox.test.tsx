@@ -23,16 +23,10 @@ const createMockStore = (initialState = {}) => {
 };
 
 describe('The SearchBox component', () => {
-  const createMockQueryResult = (overrides = {}) => ({
+  const createMockQueryResult = () => ({
     data: null,
-    error: null,
-    isLoading: false,
     isFetching: false,
-    isSuccess: false,
-    isError: false,
-    isUninitialized: false,
     refetch: vi.fn(),
-    ...overrides,
   });
 
   beforeEach(() => {
