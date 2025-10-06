@@ -55,7 +55,7 @@ describe('The Favorites component', () => {
     expect(backButton).toBeDefined();
   });
 
-  it('should handle back button click', () => {
+  it('should handle the back button click', () => {
     const store = createMockStore();
 
     const favorites = render(

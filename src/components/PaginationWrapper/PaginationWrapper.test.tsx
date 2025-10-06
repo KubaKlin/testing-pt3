@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -6,7 +6,11 @@ import { PaginationWrapper } from './PaginationWrapper';
 import searchReducer from '../../store/searchSlice';
 
 describe('The PaginationWrapper component', () => {
-  const mockHandlePageChange = vi.fn();
+  let mockHandlePageChange: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    mockHandlePageChange = vi.fn();
+  });
 
   const renderWithStore = (currentPage: number) => {
     const store = configureStore({
