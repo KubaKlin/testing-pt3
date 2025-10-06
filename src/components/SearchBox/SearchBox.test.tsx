@@ -1,21 +1,47 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { SearchBox } from './SearchBox';
+import searchReducer from '../../store/searchSlice';
+import { useSearchSoundsQuery } from '../../store/freesoundApi';
 
-const createMockStore = () => {
+vi.mock('../../store/freesoundApi', () => ({
+  useSearchSoundsQuery: vi.fn(),
+}));
+
+const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
-      search: (state = { query: '', currentPage: 1 }) => state,
+      search: searchReducer,
+    },
+    preloadedState: {
+      search: { query: '', currentPage: 1 },
+      ...initialState,
     },
   });
 };
 
-const store = createMockStore();
-
 describe('The SearchBox component', () => {
+  const createMockQueryResult = (overrides = {}) => ({
+    data: null,
+    error: null,
+    isLoading: false,
+    isFetching: false,
+    isSuccess: false,
+    isError: false,
+    isUninitialized: false,
+    refetch: vi.fn(),
+    ...overrides,
+  });
+
+  beforeEach(() => {
+    // Reset mock to default state before each test
+    vi.mocked(useSearchSoundsQuery).mockReturnValue(createMockQueryResult());
+  });
+
   it('should render search input field', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -28,6 +54,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should display placeholder text', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -42,6 +69,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should render search button', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -54,6 +82,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should update input value when typing', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -68,6 +97,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should show clear button when input has value', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -84,6 +114,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should clear input when clear button is clicked', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -102,6 +133,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should disable search button when input is empty', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />
@@ -114,6 +146,7 @@ describe('The SearchBox component', () => {
   });
 
   it('should enable search button when input has value', () => {
+    const store = createMockStore();
     const searchBox = render(
       <Provider store={store}>
         <SearchBox />

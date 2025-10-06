@@ -31,7 +31,6 @@ export const SearchBox = () => {
     dispatch(clearSearch());
   };
 
-
   return (
     <StyledSearchForm onSubmit={handleSubmit}>
       <TextField

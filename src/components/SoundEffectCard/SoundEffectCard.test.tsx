@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -30,19 +30,22 @@ Object.defineProperty(HTMLAudioElement.prototype, 'pause', {
 });
 
 describe('The SoundEffectCard component', () => {
-  const createMockSoundEffect = (): SoundEffect => ({
-    id: 1,
-    name: 'Test Sound',
-    previews: {
-      'preview-hq-mp3': 'url1',
-      'preview-hq-ogg': 'url2',
-      'preview-lq-mp3': 'url3',
-      'preview-lq-ogg': 'url4',
-    },
+  let mockSoundEffect: SoundEffect;
+
+  beforeEach(() => {
+    mockSoundEffect = {
+      id: 1,
+      name: 'Test Sound',
+      previews: {
+        'preview-hq-mp3': 'url1',
+        'preview-hq-ogg': 'url2',
+        'preview-lq-mp3': 'url3',
+        'preview-lq-ogg': 'url4',
+      },
+    };
   });
 
   it('should display sound effect name', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -57,7 +60,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should show audio element with controls', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -75,7 +77,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should show `add to favorite` icon when not favorited', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -90,7 +91,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should show `remove from favorites` icon when favorited', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore([mockSoundEffect]);
 
     const soundCard = render(
@@ -105,7 +105,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should have audio source with correct URL', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -123,7 +122,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should add sound effect to favorites when favorite button is clicked', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore();
 
     const soundCard = render(
@@ -141,7 +139,6 @@ describe('The SoundEffectCard component', () => {
   });
 
   it('should remove sound effect from favorites when favorite button is clicked on favorited item', () => {
-    const mockSoundEffect = createMockSoundEffect();
     const store = createMockStore([mockSoundEffect]);
 
     const soundCard = render(
