@@ -39,12 +39,11 @@ export const SoundEffectCard = ({ soundEffect }: SoundEffectCardProps) => {
       <StyledCardContent>
         <Typography variant="body1">{soundEffect.name}</Typography>
         <StyledButtonContainer>
-          <StyledAudio
-            controls
-            preload="none"
-            aria-label={soundEffect.name}
-          >
-            <source src={soundEffect.previews['preview-lq-mp3']} type="audio/mpeg" />
+          <StyledAudio controls preload="none" aria-label={soundEffect.name}>
+            <source
+              src={soundEffect.previews['preview-lq-mp3']}
+              type="audio/mpeg"
+            />
             Your browser does not support the audio element.
           </StyledAudio>
           <IconButton

@@ -6,4 +6,3 @@ export const StyledFavoritesContainer = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
   marginX: 'auto',
 }));
-

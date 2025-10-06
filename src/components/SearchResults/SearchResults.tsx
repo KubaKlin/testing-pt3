@@ -10,7 +10,6 @@ import { LoadingInfo } from '../LoadingInfo/LoadingInfo';
 import { PaginationWrapper } from '../PaginationWrapper/PaginationWrapper';
 import { StyledErrorAlert, StyledInfoAlert } from './SearchResults.styles';
 
-
 export const SearchResults = () => {
   const dispatch = useDispatch();
   const { query: searchQuery, currentPage } = useSelector(
@@ -44,7 +43,6 @@ export const SearchResults = () => {
       </StyledErrorAlert>
     );
   }
-
 
   if (data && data.results.length === 0) {
     return (

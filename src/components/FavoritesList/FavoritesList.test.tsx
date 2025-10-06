@@ -23,7 +23,7 @@ const mockSoundEffect: SoundEffect = {
     'preview-lq-mp3': 'url1',
     'preview-lq-ogg': 'url1',
   },
-}
+};
 
 describe('FavoritesList', () => {
   it('renders favorites list with correct count', () => {
@@ -33,10 +33,12 @@ describe('FavoritesList', () => {
     render(
       <Provider store={store}>
         <FavoritesList favoriteData={favorites} />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByText('Your Favorites (1 sound effects)')).toBeInTheDocument();
+    expect(
+      screen.getByText('Your Favorites (1 sound effects)'),
+    ).toBeInTheDocument();
   });
 
   it('renders empty favorites list', () => {
@@ -45,22 +47,29 @@ describe('FavoritesList', () => {
     render(
       <Provider store={store}>
         <FavoritesList favoriteData={[]} />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByText('Your Favorites (0 sound effects)')).toBeInTheDocument();
+    expect(
+      screen.getByText('Your Favorites (0 sound effects)'),
+    ).toBeInTheDocument();
   });
 
   it('renders multiple favorites', () => {
     const store = createMockStore();
-    const favorites = [mockSoundEffect, { ...mockSoundEffect, id: 2, name: 'Test Sound 2' }];
+    const favorites = [
+      mockSoundEffect,
+      { ...mockSoundEffect, id: 2, name: 'Test Sound 2' },
+    ];
 
     render(
       <Provider store={store}>
         <FavoritesList favoriteData={favorites} />
-      </Provider>
+      </Provider>,
     );
 
-    expect(screen.getByText('Your Favorites (2 sound effects)')).toBeInTheDocument();
+    expect(
+      screen.getByText('Your Favorites (2 sound effects)'),
+    ).toBeInTheDocument();
   });
 });

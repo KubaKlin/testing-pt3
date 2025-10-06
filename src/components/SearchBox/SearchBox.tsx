@@ -11,10 +11,12 @@ import { useSearchSoundsQuery } from '../../store/freesoundApi';
 import { RootState } from '../../store/store';
 
 export const SearchBox = () => {
-  const { query: searchQuery } = useSelector((state: RootState) => state.search);
+  const { query: searchQuery } = useSelector(
+    (state: RootState) => state.search,
+  );
   const { isFetching } = useSearchSoundsQuery(
     { query: searchQuery, page: 1 },
-    { skip: !searchQuery }
+    { skip: !searchQuery },
   );
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const dispatch = useDispatch();

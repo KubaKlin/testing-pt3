@@ -84,7 +84,9 @@ describe('The Favorites component', () => {
       </BrowserRouter>,
     );
 
-    const favoritesTitle = favorites.getByText('Your Favorites (0 sound effects)');
+    const favoritesTitle = favorites.getByText(
+      'Your Favorites (0 sound effects)',
+    );
     expect(favoritesTitle).toBeInTheDocument();
   });
 
@@ -97,7 +99,9 @@ describe('The Favorites component', () => {
       </BrowserRouter>,
     );
 
-    const favoritesTitle = favorites.getByText('Your Favorites (2 sound effects)');
+    const favoritesTitle = favorites.getByText(
+      'Your Favorites (2 sound effects)',
+    );
     const favoriteCard1 = favorites.getByText('Favorite 1');
     const favoriteCard2 = favorites.getByText('Favorite 2');
 

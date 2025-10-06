@@ -4,7 +4,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import type { Middleware } from '@reduxjs/toolkit';
 import { SearchResults } from './SearchResults';
-import { useSearchSoundsQuery, type FreesoundSearchResponse } from '../../store/freesoundApi';
+import {
+  useSearchSoundsQuery,
+  type FreesoundSearchResponse,
+} from '../../store/freesoundApi';
 import searchReducer from '../../store/searchSlice';
 import favoritesReducer from '../../store/favoritesSlice';
 import { freesoundApi } from '../../store/freesoundApi';
@@ -51,11 +54,12 @@ describe('The SearchResults component', () => {
       },
     });
 
-    return () => render(
-      <Provider store={store}>
-        <SearchResults />
-      </Provider>,
-    );
+    return () =>
+      render(
+        <Provider store={store}>
+          <SearchResults />
+        </Provider>,
+      );
   };
 
   it('should show loading state when isFetching is true', () => {
@@ -76,7 +80,7 @@ describe('The SearchResults component', () => {
     vi.mocked(useSearchSoundsQuery).mockReturnValue({
       data: null,
       isFetching: false,
-      error: "Test error",
+      error: 'Test error',
       refetch: vi.fn(),
     } satisfies MockQueryResult);
 
@@ -152,7 +156,6 @@ describe('The SearchResults component', () => {
     expect(soundCard1).toBeDefined();
     expect(soundCard2).toBeDefined();
   });
-
 
   it('should show pagination when totalPages is greater than 1', () => {
     const mockData = {
