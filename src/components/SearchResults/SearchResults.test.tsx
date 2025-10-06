@@ -4,11 +4,19 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import type { Middleware } from '@reduxjs/toolkit';
 import { SearchResults } from './SearchResults';
-import { useSearchSoundsQuery } from '../../store/freesoundApi';
+import { useSearchSoundsQuery, type FreesoundSearchResponse } from '../../store/freesoundApi';
 import searchReducer from '../../store/searchSlice';
 import favoritesReducer from '../../store/favoritesSlice';
 import { freesoundApi } from '../../store/freesoundApi';
 import { favoritesMiddleware } from '../../store/favoritesMiddleware';
+
+// Type for the RTK Query hook return value
+interface MockQueryResult {
+  data: FreesoundSearchResponse | null;
+  isFetching: boolean;
+  error: string | null;
+  refetch: () => void;
+}
 
 // Mock the API hook
 vi.mock('../../store/freesoundApi', () => ({
@@ -56,7 +64,7 @@ describe('The SearchResults component', () => {
       isFetching: true,
       error: null,
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
@@ -70,7 +78,7 @@ describe('The SearchResults component', () => {
       isFetching: false,
       error: "Test error",
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
@@ -87,7 +95,7 @@ describe('The SearchResults component', () => {
       isFetching: false,
       error: null,
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
@@ -131,7 +139,7 @@ describe('The SearchResults component', () => {
       isFetching: false,
       error: null,
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
@@ -166,7 +174,7 @@ describe('The SearchResults component', () => {
       isFetching: false,
       error: null,
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
@@ -180,7 +188,7 @@ describe('The SearchResults component', () => {
       isFetching: false,
       error: null,
       refetch: vi.fn(),
-    } as any);
+    } satisfies MockQueryResult);
 
     const renderComponent = renderWithStore(1);
     const searchResults = renderComponent();
