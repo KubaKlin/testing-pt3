@@ -19,7 +19,7 @@ export const SoundSearch = () => {
     (state: RootState) => state.favorites.favorites,
   );
 
-  const { isFetching } = useSearchSoundsQuery(
+  useSearchSoundsQuery(
     { query: searchQuery, page: 1 },
     {
       skip: !searchQuery,
@@ -47,7 +47,7 @@ export const SoundSearch = () => {
         )}
       </StyledHeaderContainer>
 
-      <SearchBox isFetching={isFetching} />
+      <SearchBox />
 
       <SearchResults />
     </Container>

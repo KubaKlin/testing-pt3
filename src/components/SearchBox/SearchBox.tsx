@@ -4,15 +4,18 @@ import type { FormEvent } from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery, clearSearch } from '../../store/searchSlice';
 import { StyledSearchForm, StyledSearchButton } from './SearchBox.styles';
+import { useSearchSoundsQuery } from '../../store/freesoundApi';
+import { RootState } from '../../store/store';
 
-interface SearchBoxProps {
-  isFetching?: boolean;
-}
-
-export const SearchBox = ({ isFetching = false }: SearchBoxProps) => {
+export const SearchBox = () => {
+  const { query: searchQuery } = useSelector((state: RootState) => state.search);
+  const { isFetching } = useSearchSoundsQuery(
+    { query: searchQuery, page: 1 },
+    { skip: !searchQuery }
+  );
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const dispatch = useDispatch();
 
